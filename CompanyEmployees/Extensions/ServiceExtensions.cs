@@ -36,7 +36,9 @@ namespace CompanyEmployees.Extensions
 
         public static void ConfigureSqlContext(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<RepositoryContext>(options => options.UseSqlServer(configuration.GetConnectionString("sqlConnection")));
+            services.AddDbContext<RepositoryContext>(options => 
+                options.UseSqlServer(configuration.GetConnectionString("sqlConnection"), b => 
+                b.MigrationsAssembly("CompanyEmployees")));
         }
     }
 }
