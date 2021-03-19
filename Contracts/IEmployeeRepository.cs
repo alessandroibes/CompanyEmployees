@@ -1,4 +1,11 @@
-﻿namespace Contracts
+﻿using Entities.Models;
+using System;
+using System.Collections.Generic;
+
+namespace Contracts
 {
-    public interface IEmployeeRepository { }
+    public interface IEmployeeRepository 
+    {
+        IEnumerable<Employee> GetEmployees(Guid companyId, bool trackChanges);
+    }
 }
