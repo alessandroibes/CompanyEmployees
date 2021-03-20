@@ -122,12 +122,18 @@ namespace CompanyEmployees.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateCompany(Guid id, [FromBody] CompanyForUpdateDto company)
+        public IActionResult UpdateCompany(Guid id, [FromBody]CompanyForUpdateDto company)
         {
             if (company == null)
             {
                 _logger.LogError("CompanyForUpdateDto object sent from client is null.");
                 return BadRequest("CompanyForUpdateDto object is null");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError("Invalid model state for the CompanyForUpdateDto object");
+                return UnprocessableEntity(ModelState);
             }
 
             var companyEntity = _repository.Company.GetCompany(id, trackChanges: true);
