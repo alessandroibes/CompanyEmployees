@@ -1,7 +1,6 @@
 ﻿using Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System;
 using System.Linq;
 
 namespace CompanyEmployees.ActionFilters
@@ -37,7 +36,6 @@ namespace CompanyEmployees.ActionFilters
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            throw new NotImplementedException();
         }
     }
 }
