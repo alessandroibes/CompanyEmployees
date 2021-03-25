@@ -1,5 +1,6 @@
 using CompanyEmployees.ActionFilters;
 using CompanyEmployees.Extensions;
+using CompanyEmployees.Utility;
 using Contracts;
 using Entities.DataTransferObjects;
 using Microsoft.AspNetCore.Builder;
@@ -31,9 +32,22 @@ namespace CompanyEmployees
             services.ConfigureCors();
             services.ConfigureIISIntegration();
             services.ConfigureLoggerService();
+
             services.ConfigureSqlContext(Configuration);
             services.ConfigureRepositoryManager();
             services.AddAutoMapper(typeof(Startup));
+
+            services.AddScoped<ValidationFilterAttribute>();
+            services.AddScoped<ValidateCompanyExistsAttribute>();
+            services.AddScoped<ValidateEmployeeForCompanyExistsAttribute>();
+            services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
+            services.AddScoped<ValidateMediaTypeAttribute>();
+            services.AddScoped<EmployeeLinks>();
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
 
             services.AddControllers(config =>
             {
@@ -43,15 +57,7 @@ namespace CompanyEmployees
             .AddXmlDataContractSerializerFormatters()
             .AddCustomCSVFormatter();
 
-            services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.SuppressModelStateInvalidFilter = true;
-            });
-
-            services.AddScoped<ValidationFilterAttribute>();
-            services.AddScoped<ValidateCompanyExistsAttribute>();
-            services.AddScoped<ValidateEmployeeForCompanyExistsAttribute>();
-            services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
+            services.AddCustomMediaTypes();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
