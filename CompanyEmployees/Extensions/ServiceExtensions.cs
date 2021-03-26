@@ -1,4 +1,5 @@
-﻿using CompanyEmployees.Formatters;
+﻿using CompanyEmployees.Controllers;
+using CompanyEmployees.Formatters;
 using Contracts;
 using Entities;
 using LoggerService;
@@ -98,6 +99,8 @@ namespace CompanyEmployees.Extensions
                 opt.AssumeDefaultVersionWhenUnspecified = true;
                 opt.DefaultApiVersion = new ApiVersion(1, 0);
                 opt.ApiVersionReader = new HeaderApiVersionReader("api-version");
+                opt.Conventions.Controller<CompaniesController>().HasApiVersion(new ApiVersion(1, 0));
+                opt.Conventions.Controller<CompaniesV2Controller>().HasDeprecatedApiVersion(new ApiVersion(2, 0));
             });
         }
     }
