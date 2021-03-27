@@ -59,6 +59,8 @@ namespace CompanyEmployees
             services.ConfigureIdentity();
             services.ConfigureJWT(Configuration);
 
+            services.AddScoped<IAuthenticationManager, AuthenticationManager>();
+
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;
